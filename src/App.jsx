@@ -1,11 +1,12 @@
-import React, { useReducer } from 'react'
+import React, { useEffect, useReducer } from 'react'
 import { MdDelete } from 'react-icons/md';
 
 const App = () => {
   const initialState = {
     input: "",
-    tasks: [],
+    tasks: JSON.parse(localStorage.getItem("tasks")) ||  [],
   };
+
 
   const reducer = (state, action) => {
     switch (action.type) {
@@ -57,6 +58,11 @@ const App = () => {
   const handleDelete = (id) => {
     dispatch({type: "delete", payload: id})
   } 
+
+  useEffect(() => {
+    localStorage.setItem("tasks", JSON.stringify(state.tasks));
+  }, [state.tasks]);
+
   return (
     <div className="h-screen bg-black flex justify-center items-center">
     <div className="w-80 rounded-2xl p-3 bg-gray-300 flex flex-col gap-3">
